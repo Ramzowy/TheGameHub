@@ -4,9 +4,11 @@ import 'animate.css';
 
 function SlingoGame() {
     const boardSize = 5;
-    const randomNumberPool = 15;
+    const randomNumberPool = 0;
     const freeRollPool = 1;
+    const freeTilePool = 10;
     const numberOfRolls = 10;
+    
 
 
 
@@ -26,9 +28,13 @@ function SlingoGame() {
                 const columnValues = grid.map((row) => row[colIndex].value);
                 const randomCommands = Array(randomNumberPool).fill({ type: 'RANDOM' });
                 const freeRollCommand = Array(freeRollPool).fill({ type: 'FREE_ROLL' });
+                const freeTileCommand = Array(freeTilePool).fill({ type: 'FREE_TILE' });
 
 
-                return [...columnValues.map((value) => ({ type: 'COLUMN', value })), ...randomCommands, ...freeRollCommand];
+                return [...columnValues.map((value) => ({ type: 'COLUMN', value })),
+                     ...randomCommands,
+                     ...freeRollCommand,
+                     ...freeTileCommand];
             });
     };
 
@@ -43,21 +49,148 @@ function SlingoGame() {
                 setRemainingRolls((prev) => prev + 1);
                 return 'Free Spin';
             }
+            if(selected.type === 'FREE_TILE') {
+                setRemainingRolls((prev) => prev + 1);
+                return 'Free Tile';
+            }
 
             return selected.value;
         });
     };
     const handleClick = (row, col) => {
-        if (!grid[row][col].clicked && grid[row][col].value === slots[col]) {
-            const newGrid = grid.map((mRow, rowIndex) =>
+        if (!grid[row][col].clicked) {
+            let newGrid = null;
+            let pointsAdded = 0;
+            let bonusPoints = 0;
+
+            if(slots[col] === 'Free Tile'){
+            newGrid = grid.map((mRow, rowIndex) =>
                 mRow.map((cell, colIndex) =>
                     rowIndex === row && colIndex === col ? { ...cell, clicked: true } : cell
                 )
             );
             setGrid(newGrid);
-            setPlayerScore((previousScore) => previousScore + grid[row][col].value);
+            pointsAdded = grid[row][col].value;
+            setPlayerScore((previousScore) => previousScore + pointsAdded);
+        
+            const newSlots = [...slots];
+            newSlots[col] = '';
+            setSlots(newSlots);
+        }
+        else if(grid[row][col].value === slots[col]) {
+            newGrid = grid.map((mRow, rowIndex) =>
+                mRow.map((cell, colIndex) =>
+                    rowIndex === row && colIndex === col ? { ...cell, clicked: true } : cell
+                )
+            );
+            setGrid(newGrid);
+            pointsAdded = grid[row][col].value;
+            setPlayerScore((previousScore) => previousScore + pointsAdded);
+
+
+        }//FIX NO BONUS SCORE DISPLAY
+        if(pointsAdded>0){
+            bonusPoints = checkForFiveInARow(newGrid);
+            setPointsDisplay(`+${pointsAdded} (+${bonusPoints} bonus)`);
+            setTimeout(() => {
+                setPointsDisplay(null);
+            }, 1000);
+        }
+
+
+            checkForFiveInARow(newGrid);          
         }
     };
+
+    function checkForFiveInARow(grid){
+
+        let pointAddAsyncBypass = 0;
+        let newFiveInARowTotal = 0;
+
+        const countedRowsAsyncBypass = new Set(countedRows);
+        const countedColumnsAsyncBypass = new Set(countedColumns);
+        const countedDiagonalsAsyncBypass = new Set(countedDiagonals);
+
+        
+        for(let row=0; row < boardSize; row++) {
+            if(grid[row].every(cell => cell.clicked) &&  !countedRowsAsyncBypass.has(row)) {
+                pointAddAsyncBypass += 100;
+                countedRowsAsyncBypass.add(row);
+
+                newFiveInARowTotal++;
+
+                for(let col = 0; col< boardSize; col++) {
+                    const element = document.getElementById(`cell-${row}-${col}`);
+                    if(element) {
+                        animateElement(element, 'animate__heartBeat');
+                    }
+
+                }
+            
+                
+            }
+        }
+
+        for(let col=0; col < boardSize; col++) {
+            if(grid.every(row => row[col].clicked) && !countedColumnsAsyncBypass.has(col)) {
+                pointAddAsyncBypass += 100;
+                countedColumnsAsyncBypass.add(col);
+
+                newFiveInARowTotal++;
+
+                for(let row = 0; row< boardSize; row++) {
+                    const element = document.getElementById(`cell-${row}-${col}`);
+                    if(element) {
+                        animateElement(element, 'animate__heartBeat');
+                    }
+                }
+            }
+        }
+        if(grid.every((row, index) => row[index].clicked) && !countedDiagonalsAsyncBypass.has('leftDiagonal')) {
+            pointAddAsyncBypass += 100;
+            countedDiagonalsAsyncBypass.add('leftDiagonal');
+
+            newFiveInARowTotal++;
+
+            for(let leftDiagCount = 0; leftDiagCount< boardSize; leftDiagCount++) {
+                const element = document.getElementById(`cell-${leftDiagCount}-${leftDiagCount}`);
+                if(element) {
+                    animateElement(element, 'animate__heartBeat');
+                }
+            }
+        }
+
+            if(grid.every((row, index) => row[boardSize - 1 - index].clicked) && !countedDiagonalsAsyncBypass.has('rightDiagonal')) {
+                pointAddAsyncBypass += 100;
+                countedDiagonalsAsyncBypass.add('rightDiagonal');
+
+                newFiveInARowTotal++;
+
+                for (let rightDiagCount = 0; rightDiagCount < boardSize; rightDiagCount++) {
+                    const element = document.getElementById(`cell-${rightDiagCount}-${boardSize - 1 - rightDiagCount}`);
+                    if (element) {
+                        animateElement(element, 'animate__heartBeat');
+                    }
+                }
+            }
+            //IT IS AN ISSUE HERE TOO
+            const updatedFiveInARowTotal = fiveInARowTotal + newFiveInARowTotal;
+            const bonusPoints = fiveInARowTotal * 100 * newFiveInARowTotal;
+
+            if(pointAddAsyncBypass > 0) {
+                setFiveInARowTotal(updatedFiveInARowTotal);
+                setPlayerScore((playerScore) => playerScore + pointAddAsyncBypass + bonusPoints);
+                setCountedRows(countedRowsAsyncBypass);
+                setCountedColumns(countedColumnsAsyncBypass);
+                setCountedDiagonals(countedDiagonalsAsyncBypass);
+            }
+
+            //FIX ISSUE WITH BONUS POINTS NOT SHOWING UP
+            console.log(`Bonus: ${bonusPoints}`)
+            return bonusPoints
+
+        }
+
 
     const regenerateSlots = () => {
         if(remainingRolls > 0) {
@@ -78,7 +211,12 @@ function SlingoGame() {
     const [slotPool, setSlotPool] = useState([]);
     const [slots, setSlots] = useState([]);
     const [playerScore, setPlayerScore] = useState(0);
+    const [pointsDisplay, setPointsDisplay] = useState(null);
     const [remainingRolls, setRemainingRolls] = useState(numberOfRolls);
+    const [countedRows, setCountedRows] = useState(new Set());
+    const [countedColumns, setCountedColumns] = useState(new Set());
+    const [countedDiagonals, setCountedDiagonals] = useState(new Set());
+    const [fiveInARowTotal, setFiveInARowTotal] = useState(0);
 
     useEffect(() => {
         const initialSlotPool = generateSlotPool(grid);
@@ -98,16 +236,18 @@ function SlingoGame() {
         <div className="animate__animated animate__fadeInDownBig">
             <div id="score-container">
                 <h1>Score: {playerScore}</h1>
+                {pointsDisplay && <div id="points-display" className="points-display">{pointsDisplay}</div>}
                 <div id="remaining-rolls">Remaining Rolls: {remainingRolls}</div>
             </div>
             <div id="board">
                 {grid.map((row, rowIndex) =>
                     row.map((cell, colIndex) => (
                         <button
+                            id={`cell-${rowIndex}-${colIndex}`}
                             key={`${rowIndex}-${colIndex}`}
                             className={`square ${cell.clicked ? 'clicked' : ''}`}
                             onClick={(e) => handleClick(rowIndex, colIndex)}
-                            disabled={cell.clicked || grid[rowIndex][colIndex].value !== slots[colIndex]}
+                            disabled={cell.clicked || slots[colIndex] !== 'Free Tile' && grid[rowIndex][colIndex].value !== slots[colIndex]}
                         >
                             {cell.value}
                         </button>

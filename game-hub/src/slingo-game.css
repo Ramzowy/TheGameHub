@@ -59,3 +59,21 @@
     text-align: left;
     white-space: nowrap;
 }
+
+/* Placeholder */
+.points-display {
+    font-size: 1.5rem;
+    color: #4caf50;
+    font-weight: bold;
+    margin-left: 10px;
+    animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
