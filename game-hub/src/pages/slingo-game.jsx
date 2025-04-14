@@ -60,8 +60,8 @@ function SlingoGame() {
     const handleClick = (row, col) => {
         if (!grid[row][col].clicked) {
             let newGrid = null;
-            let pointsAdded = 0;
             let bonusPoints = 0;
+            let pointsAdded = 0;
 
             if(slots[col] === 'Free Tile'){
             newGrid = grid.map((mRow, rowIndex) =>
@@ -88,20 +88,24 @@ function SlingoGame() {
             setPlayerScore((previousScore) => previousScore + pointsAdded);
 
 
-        }//FIX NO BONUS SCORE DISPLAY
-        if(pointsAdded>0){
-            bonusPoints = checkForFiveInARow(newGrid);
-            setPointsDisplay(`+${pointsAdded} (+${bonusPoints} bonus)`);
+        }
+        const oldScore = playerScore
+        const newScore = playerScore + pointsAdded + bonusPoints
+        const displayedPointAddition = newScore - oldScore;
+        //FIX THE POINTS DISPLAY ISSUE STILL
+
+            setPointsDisplay(`+${displayedPointAddition}`);
             setTimeout(() => {
                 setPointsDisplay(null);
             }, 1000);
-        }
+        
+    
 
 
             checkForFiveInARow(newGrid);          
         }
     };
-
+/////////////////
     function checkForFiveInARow(grid){
 
         let pointAddAsyncBypass = 0;
@@ -175,7 +179,7 @@ function SlingoGame() {
             }
             //IT IS AN ISSUE HERE TOO
             const updatedFiveInARowTotal = fiveInARowTotal + newFiveInARowTotal;
-            const bonusPoints = fiveInARowTotal * 100 * newFiveInARowTotal;
+            const bonusPoints = 100 * newFiveInARowTotal;
 
             if(pointAddAsyncBypass > 0) {
                 setFiveInARowTotal(updatedFiveInARowTotal);
@@ -206,7 +210,7 @@ function SlingoGame() {
         })
     }
     }
-
+////////////
     const [grid, setGrid] = useState(generateRandomGrid());
     const [slotPool, setSlotPool] = useState([]);
     const [slots, setSlots] = useState([]);
@@ -217,7 +221,7 @@ function SlingoGame() {
     const [countedColumns, setCountedColumns] = useState(new Set());
     const [countedDiagonals, setCountedDiagonals] = useState(new Set());
     const [fiveInARowTotal, setFiveInARowTotal] = useState(0);
-
+///////////
     useEffect(() => {
         const initialSlotPool = generateSlotPool(grid);
         const initialSlots = generateRandomSlots(initialSlotPool);
@@ -231,7 +235,7 @@ function SlingoGame() {
           element.classList.remove("animate__animated", `${animationName}`,"animate__fast");
         });
       }
-
+////////
     return (
         <div className="animate__animated animate__fadeInDownBig">
             <div id="score-container">
