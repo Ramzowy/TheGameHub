@@ -4,7 +4,8 @@ import 'animate.css';
 
 function SlingoGame() {
     const boardSize = 5;
-    const randomNumberPool = 8;
+    const randomNumberPool = 15;
+    const freeRollPool = 1;
     const numberOfRolls = 10;
 
 
@@ -24,7 +25,10 @@ function SlingoGame() {
             .map((_, colIndex) => {
                 const columnValues = grid.map((row) => row[colIndex].value);
                 const randomCommands = Array(randomNumberPool).fill({ type: 'RANDOM' });
-                return [...columnValues.map((value) => ({ type: 'COLUMN', value })), ...randomCommands];
+                const freeRollCommand = Array(freeRollPool).fill({ type: 'FREE_ROLL' });
+
+
+                return [...columnValues.map((value) => ({ type: 'COLUMN', value })), ...randomCommands, ...freeRollCommand];
             });
     };
 
@@ -35,6 +39,11 @@ function SlingoGame() {
             if (selected.type === 'RANDOM') {
                 return Math.floor(Math.random() * 99) + 1;
             }
+            if(selected.type === 'FREE_ROLL') {
+                setRemainingRolls((prev) => prev + 1);
+                return 'Free Spin';
+            }
+
             return selected.value;
         });
     };
@@ -51,8 +60,10 @@ function SlingoGame() {
     };
 
     const regenerateSlots = () => {
+        if(remainingRolls > 0) {
         const newslots = generateRandomSlots(slotPool);
         setSlots(newslots);
+        setRemainingRolls((prev) => prev - 1);
 
         newslots.forEach((_,index) => {
             const slotElement = document.getElementById(`slot-${index}`);
@@ -60,12 +71,14 @@ function SlingoGame() {
                 animateElement(slotElement, 'animate__flipInX');
             }
         })
-    };
+    }
+    }
 
     const [grid, setGrid] = useState(generateRandomGrid());
     const [slotPool, setSlotPool] = useState([]);
     const [slots, setSlots] = useState([]);
     const [playerScore, setPlayerScore] = useState(0);
+    const [remainingRolls, setRemainingRolls] = useState(numberOfRolls);
 
     useEffect(() => {
         const initialSlotPool = generateSlotPool(grid);
@@ -85,6 +98,7 @@ function SlingoGame() {
         <div className="animate__animated animate__fadeInDownBig">
             <div id="score-container">
                 <h1>Score: {playerScore}</h1>
+                <div id="remaining-rolls">Remaining Rolls: {remainingRolls}</div>
             </div>
             <div id="board">
                 {grid.map((row, rowIndex) =>
@@ -107,11 +121,11 @@ function SlingoGame() {
                     </div>
                 ))}
             </div>
-            <button onClick={regenerateSlots} id="regenerate-slots">
+            <button onClick={regenerateSlots} id="regenerate-slots" disabled={remainingRolls === 0}>
                 Reroll Slots
             </button>
         </div>
     );
 }
 
-export default SlingoGame;
+export default SlingoGame
