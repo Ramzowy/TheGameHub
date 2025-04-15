@@ -1,6 +1,6 @@
 :root {
     --animate-delay: 0.1s;
-    --animate-duration: 0.5s
+    --animate-duration: 1s;
   }
 
 .square {
@@ -59,21 +59,27 @@
     text-align: left;
     white-space: nowrap;
 }
+#added-score {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-/* Placeholder */
 .points-display {
     font-size: 1.5rem;
     color: #4caf50;
     font-weight: bold;
     margin-left: 10px;
-    animation: fadeOut 2s forwards;
+    min-height: 1.5rem;
+    display: inline-block;
+    text-align: center;
 }
 
-@keyframes fadeOut {
+/* @keyframes fadeOut {
     0% {
         opacity: 1;
     }
     100% {
         opacity: 0;
     }
-}
+} */

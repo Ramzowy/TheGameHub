@@ -60,7 +60,7 @@ function SlingoGame() {
     const handleClick = (row, col) => {
         if (!grid[row][col].clicked) {
             let newGrid = null;
-            let bonusPoints = 0;
+            let bonusPoints = 0
             let pointsAdded = 0;
 
             if(slots[col] === 'Free Tile'){
@@ -89,20 +89,32 @@ function SlingoGame() {
 
 
         }
+        bonusPoints = checkForFiveInARow(newGrid);
         const oldScore = playerScore
-        const newScore = playerScore + pointsAdded + bonusPoints
+        console.log(`Old Score: ${oldScore}`)
+        const newScore = oldScore + pointsAdded + bonusPoints
+        console.log(`New Score: ${newScore}`)
         const displayedPointAddition = newScore - oldScore;
-        //FIX THE POINTS DISPLAY ISSUE STILL
+        console.log(`Displayed Point Addition: ${displayedPointAddition}`)
+
+        setPlayerScore(newScore);
+
+        const pointAddElement = document.getElementById(`points-display`);
+        if(pointAddElement) {
+
+            //NEED TO FIX ANIMATION, ONLY PLAYS WHEN ONCLICK IS CALLED TWICE. NEEDS TO WORK OFF OF ONCE
+            animateElement(pointAddElement, 'animate__fadeOutLeft');
+        }
 
             setPointsDisplay(`+${displayedPointAddition}`);
             setTimeout(() => {
-                setPointsDisplay(null);
+                setPointsDisplay('');
             }, 1000);
         
     
 
 
-            checkForFiveInARow(newGrid);          
+               
         }
     };
 /////////////////
@@ -191,6 +203,7 @@ function SlingoGame() {
 
             //FIX ISSUE WITH BONUS POINTS NOT SHOWING UP
             console.log(`Bonus: ${bonusPoints}`)
+            
             return bonusPoints
 
         }
@@ -215,7 +228,7 @@ function SlingoGame() {
     const [slotPool, setSlotPool] = useState([]);
     const [slots, setSlots] = useState([]);
     const [playerScore, setPlayerScore] = useState(0);
-    const [pointsDisplay, setPointsDisplay] = useState(null);
+    const [pointsDisplay, setPointsDisplay] = useState('');
     const [remainingRolls, setRemainingRolls] = useState(numberOfRolls);
     const [countedRows, setCountedRows] = useState(new Set());
     const [countedColumns, setCountedColumns] = useState(new Set());
@@ -230,6 +243,10 @@ function SlingoGame() {
     }, []);
 
     function animateElement(element, animationName) {
+        element.classList.remove("animate__animated", `${animationName}`,"animate__fast");
+
+        void element.offsetWidth;
+
         element.classList.add("animate__animated", `${animationName}`,"animate__fast");
         element.addEventListener("animationend", () => {
           element.classList.remove("animate__animated", `${animationName}`,"animate__fast");
@@ -239,8 +256,10 @@ function SlingoGame() {
     return (
         <div className="animate__animated animate__fadeInDownBig">
             <div id="score-container">
+                <div id='added-score'>
                 <h1>Score: {playerScore}</h1>
-                {pointsDisplay && <div id="points-display" className="points-display">{pointsDisplay}</div>}
+                {pointsDisplay && <div id="points-display" className="points-display">{pointsDisplay || ''}</div>}
+                </div>
                 <div id="remaining-rolls">Remaining Rolls: {remainingRolls}</div>
             </div>
             <div id="board">
