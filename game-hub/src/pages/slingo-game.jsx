@@ -7,7 +7,7 @@ function SlingoGame() {
     const randomNumberPool = 15;//def 15
     const freeRollPool = 2;//def 1
     const freeTilePool = 1;//def 1
-    const numberOfRolls = 10;//def 10
+    const numberOfRolls = 11;//def 11
     const bonusSlots = 1;//def 1
     
 
@@ -41,10 +41,15 @@ function SlingoGame() {
             });
     };
 
-    const generateRandomSlots = (slotPool) => {
+    const generateRandomSlots = (slotPool, initialGameLoad = false) => {
+        
         return slotPool.map((pool) => {
             const randomIndex = Math.floor(Math.random() * pool.length);
             const selected = pool[randomIndex];
+            if(initialGameLoad){
+                return ' '
+            }
+            
             if (selected.type === 'RANDOM') {
                 return Math.floor(Math.random() * 99) + 1;
             }
@@ -56,14 +61,15 @@ function SlingoGame() {
                 return 'Free Tile';
             }
             if(selected.type === 'BONUS_SLOT') {
-                setPlayerScore((prevScore) => prevScore + 1000);
-                return '1000 Points';
+                setPlayerScore((prevScore) => prevScore + 500);
+                return '500 Points!';
             }
 
             return selected.value;
         });
     };
     const handleClick = (row, col) => {
+
         if (!grid[row][col].clicked) {
             let newGrid = null;
             let bonusPoints = 0
@@ -105,19 +111,12 @@ function SlingoGame() {
         
         if(pointAddElement) {
             pointAddElement.textContent = `+${displayedPointAddition}`;
-            //NEED TO FIX ANIMATION, ONLY PLAYS WHEN ONCLICK IS CALLED TWICE. NEEDS TO WORK OFF OF ONCE
             animateElement(pointAddElement, 'animate__fadeOutLeft');
         }
-
             setPointsDisplay(`+${displayedPointAddition}`);
             setTimeout(() => {
                 setPointsDisplay(' ');
             }, 700);
-        
-    
-
-
-               
         }
     };
 /////////////////
@@ -209,6 +208,28 @@ function SlingoGame() {
 
         }
 
+    function offerExtraRoll(){
+            const outOfRollsPrompt = window.confirm("You have no rolls left, would you like to spend 20% of your score for an extra roll?");
+            
+            if(outOfRollsPrompt) {
+                if(playerScore <= 10) {
+                    alert("Not enough score to buy a roll.");
+                    return setGameState(false);
+                }
+                else {
+                    const pointDeduction = Math.trunc(playerScore * 0.2);
+
+                    setPlayerScore((prevScore) => prevScore - pointDeduction);
+                    setRemainingRolls((prevRolls) => prevRolls + 1);
+                }
+            }
+            else {
+                alert("Not enough rolls to continue.");
+                return setGameState(false);
+            }
+        }
+
+
 
     const regenerateSlots = () => {
         if(remainingRolls > 0) {
@@ -223,8 +244,12 @@ function SlingoGame() {
             }
         })
     }
+    else {
+        offerExtraRoll();
+    }
     }
 ////////////
+    const [gameState, setGameState] = useState(true);
     const [grid, setGrid] = useState(generateRandomGrid());
     const [slotPool, setSlotPool] = useState([]);
     const [slots, setSlots] = useState([]);
@@ -238,7 +263,7 @@ function SlingoGame() {
 ///////////
     useEffect(() => {
         const initialSlotPool = generateSlotPool(grid);
-        const initialSlots = generateRandomSlots(initialSlotPool);
+        const initialSlots = generateRandomSlots(initialSlotPool, true);
         setSlotPool(initialSlotPool);
         setSlots(initialSlots);
     }, []);
@@ -285,7 +310,7 @@ function SlingoGame() {
                     </div>
                 ))}
             </div>
-            <button onClick={regenerateSlots} id="regenerate-slots" disabled={remainingRolls === 0}>
+            <button onClick={regenerateSlots} id="regenerate-slots" disabled={playerScore === 0 && !gameState || !gameState}>
                 Reroll Slots
             </button>
         </div>
