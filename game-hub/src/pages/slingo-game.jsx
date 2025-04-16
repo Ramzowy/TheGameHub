@@ -3,11 +3,12 @@ import '../slingo-game.css';
 import 'animate.css';
 
 function SlingoGame() {
-    const boardSize = 5;
-    const randomNumberPool = 0;
-    const freeRollPool = 1;
-    const freeTilePool = 10;
-    const numberOfRolls = 10;
+    const boardSize = 5;//def 5
+    const randomNumberPool = 15;//def 15
+    const freeRollPool = 2;//def 1
+    const freeTilePool = 1;//def 1
+    const numberOfRolls = 10;//def 10
+    const bonusSlots = 1;//def 1
     
 
 
@@ -29,12 +30,14 @@ function SlingoGame() {
                 const randomCommands = Array(randomNumberPool).fill({ type: 'RANDOM' });
                 const freeRollCommand = Array(freeRollPool).fill({ type: 'FREE_ROLL' });
                 const freeTileCommand = Array(freeTilePool).fill({ type: 'FREE_TILE' });
+                const bonusSlotCommand = Array(bonusSlots).fill({ type: 'BONUS_SLOT' });
 
 
                 return [...columnValues.map((value) => ({ type: 'COLUMN', value })),
                      ...randomCommands,
                      ...freeRollCommand,
-                     ...freeTileCommand];
+                     ...freeTileCommand,
+                    ...bonusSlotCommand];
             });
     };
 
@@ -50,8 +53,11 @@ function SlingoGame() {
                 return 'Free Spin';
             }
             if(selected.type === 'FREE_TILE') {
-                setRemainingRolls((prev) => prev + 1);
                 return 'Free Tile';
+            }
+            if(selected.type === 'BONUS_SLOT') {
+                setPlayerScore((prevScore) => prevScore + 1000);
+                return '1000 Points';
             }
 
             return selected.value;
@@ -91,25 +97,22 @@ function SlingoGame() {
         }
         bonusPoints = checkForFiveInARow(newGrid);
         const oldScore = playerScore
-        console.log(`Old Score: ${oldScore}`)
         const newScore = oldScore + pointsAdded + bonusPoints
-        console.log(`New Score: ${newScore}`)
         const displayedPointAddition = newScore - oldScore;
-        console.log(`Displayed Point Addition: ${displayedPointAddition}`)
-
         setPlayerScore(newScore);
 
         const pointAddElement = document.getElementById(`points-display`);
+        
         if(pointAddElement) {
-
+            pointAddElement.textContent = `+${displayedPointAddition}`;
             //NEED TO FIX ANIMATION, ONLY PLAYS WHEN ONCLICK IS CALLED TWICE. NEEDS TO WORK OFF OF ONCE
             animateElement(pointAddElement, 'animate__fadeOutLeft');
         }
 
             setPointsDisplay(`+${displayedPointAddition}`);
             setTimeout(() => {
-                setPointsDisplay('');
-            }, 1000);
+                setPointsDisplay(' ');
+            }, 700);
         
     
 
@@ -189,7 +192,6 @@ function SlingoGame() {
                     }
                 }
             }
-            //IT IS AN ISSUE HERE TOO
             const updatedFiveInARowTotal = fiveInARowTotal + newFiveInARowTotal;
             const bonusPoints = 100 * newFiveInARowTotal;
 
@@ -201,7 +203,6 @@ function SlingoGame() {
                 setCountedDiagonals(countedDiagonalsAsyncBypass);
             }
 
-            //FIX ISSUE WITH BONUS POINTS NOT SHOWING UP
             console.log(`Bonus: ${bonusPoints}`)
             
             return bonusPoints
@@ -228,7 +229,7 @@ function SlingoGame() {
     const [slotPool, setSlotPool] = useState([]);
     const [slots, setSlots] = useState([]);
     const [playerScore, setPlayerScore] = useState(0);
-    const [pointsDisplay, setPointsDisplay] = useState('');
+    const [pointsDisplay, setPointsDisplay] = useState(' ');
     const [remainingRolls, setRemainingRolls] = useState(numberOfRolls);
     const [countedRows, setCountedRows] = useState(new Set());
     const [countedColumns, setCountedColumns] = useState(new Set());
@@ -250,7 +251,7 @@ function SlingoGame() {
         element.classList.add("animate__animated", `${animationName}`,"animate__fast");
         element.addEventListener("animationend", () => {
           element.classList.remove("animate__animated", `${animationName}`,"animate__fast");
-        });
+        }, { once: true });
       }
 ////////
     return (
@@ -258,7 +259,7 @@ function SlingoGame() {
             <div id="score-container">
                 <div id='added-score'>
                 <h1>Score: {playerScore}</h1>
-                {pointsDisplay && <div id="points-display" className="points-display">{pointsDisplay || ''}</div>}
+                {pointsDisplay && <div id="points-display" className="points-display">{pointsDisplay || ' '}</div>}
                 </div>
                 <div id="remaining-rolls">Remaining Rolls: {remainingRolls}</div>
             </div>
