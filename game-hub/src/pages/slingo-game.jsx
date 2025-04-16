@@ -12,7 +12,6 @@ function SlingoGame() {
     
 
 
-
     const generateRandomGrid = () =>
         Array(boardSize)
             .fill()
