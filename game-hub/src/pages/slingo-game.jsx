@@ -4,9 +4,9 @@ import 'animate.css';
 
 function SlingoGame() {
     const boardSize = 5;//def 5
-    const randomNumberPool = 15;//def 15
-    const freeRollPool = 2;//def 1
-    const freeTilePool = 1;//def 1
+    const randomNumberPool = 12;//def 12
+    const freeRollPool = 2;//def 2
+    const freeTilePool = 2;//def 2
     const numberOfRolls = 11;//def 11
     const bonusSlots = 1;//def 1
     
@@ -117,6 +117,14 @@ function SlingoGame() {
             setTimeout(() => {
                 setPointsDisplay(' ');
             }, 700);
+            if(checkForBoardCompletion(newGrid)) {
+                setGameState(false);
+                setBoardCompleted(true);
+                
+                setTimeout(() => {
+                    alert(`Congratulations! You've completed the board with a score of ${newScore}!`)
+                }, 500)
+            }
         }
     };
 /////////////////
@@ -132,7 +140,7 @@ function SlingoGame() {
         
         for(let row=0; row < boardSize; row++) {
             if(grid[row].every(cell => cell.clicked) &&  !countedRowsAsyncBypass.has(row)) {
-                pointAddAsyncBypass += 100;
+                pointAddAsyncBypass += 250;
                 countedRowsAsyncBypass.add(row);
 
                 newFiveInARowTotal++;
@@ -151,7 +159,7 @@ function SlingoGame() {
 
         for(let col=0; col < boardSize; col++) {
             if(grid.every(row => row[col].clicked) && !countedColumnsAsyncBypass.has(col)) {
-                pointAddAsyncBypass += 100;
+                pointAddAsyncBypass += 250;
                 countedColumnsAsyncBypass.add(col);
 
                 newFiveInARowTotal++;
@@ -165,7 +173,7 @@ function SlingoGame() {
             }
         }
         if(grid.every((row, index) => row[index].clicked) && !countedDiagonalsAsyncBypass.has('leftDiagonal')) {
-            pointAddAsyncBypass += 100;
+            pointAddAsyncBypass += 250;
             countedDiagonalsAsyncBypass.add('leftDiagonal');
 
             newFiveInARowTotal++;
@@ -179,7 +187,7 @@ function SlingoGame() {
         }
 
             if(grid.every((row, index) => row[boardSize - 1 - index].clicked) && !countedDiagonalsAsyncBypass.has('rightDiagonal')) {
-                pointAddAsyncBypass += 100;
+                pointAddAsyncBypass += 250;
                 countedDiagonalsAsyncBypass.add('rightDiagonal');
 
                 newFiveInARowTotal++;
@@ -192,7 +200,7 @@ function SlingoGame() {
                 }
             }
             const updatedFiveInARowTotal = fiveInARowTotal + newFiveInARowTotal;
-            const bonusPoints = 100 * newFiveInARowTotal;
+            const bonusPoints = 250 * newFiveInARowTotal;
 
             if(pointAddAsyncBypass > 0) {
                 setFiveInARowTotal(updatedFiveInARowTotal);
@@ -207,6 +215,9 @@ function SlingoGame() {
             return bonusPoints
 
         }
+    function checkForBoardCompletion(grid) {
+        return grid.every(row => row.every(cell => cell.clicked));
+    }
 
     function offerExtraRoll(){
             const outOfRollsPrompt = window.confirm("You have no rolls left, would you like to spend 20% of your score for an extra roll?");
@@ -225,6 +236,7 @@ function SlingoGame() {
             }
             else {
                 alert("Not enough rolls to continue.");
+                alert(`You failed to complete the board. Your score was ${playerScore}`)
                 return setGameState(false);
             }
         }
@@ -242,11 +254,11 @@ function SlingoGame() {
             if(slotElement) {
                 animateElement(slotElement, 'animate__flipInX');
             }
-        })
-    }
-    else {
-        offerExtraRoll();
-    }
+            })
+        }
+        else {
+            offerExtraRoll();
+            }
     }
 ////////////
     const [gameState, setGameState] = useState(true);
@@ -260,6 +272,7 @@ function SlingoGame() {
     const [countedColumns, setCountedColumns] = useState(new Set());
     const [countedDiagonals, setCountedDiagonals] = useState(new Set());
     const [fiveInARowTotal, setFiveInARowTotal] = useState(0);
+    const [boardCompleted, setBoardCompleted] = useState(false);
 ///////////
     useEffect(() => {
         const initialSlotPool = generateSlotPool(grid);
