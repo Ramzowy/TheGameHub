@@ -16,6 +16,9 @@ function HomePage() {
           <li>
             <Link to="/tic-tac-toe">Tic Tac Toe</Link>
           </li>
+          <li>
+            <Link to="/wordle">Wordle</Link>
+          </li>
         </ul>
       </nav>
     </div>

@@ -1,0 +1,92 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .app {
+    background-color: #0B1623;
+    color: #F5F8FF;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  :root {
+    --Background-color: #0B1623;
+    --Text-Color: #F5F8FF;
+    --Wrong-letter-color: #FF4D4D;
+    --Misplaced-letter-color: #FFCC00;
+    --Correct-letter-color: #00FF00;
+  }
+  
+  .light-mode {
+    background-color: var(--Text-Color);
+    color: var(--Background-color);
+  }
+  
+  header {
+    border-bottom: 2px solid #3A3A3C;
+    position: relative;
+    margin-top: 0;
+  }
+  
+  #mode-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: inherit;
+  }
+  
+  header h1 {
+    text-align: center;
+  }
+  
+  .letter {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #3A3A3C;
+    text-transform: uppercase;
+    font-size: 2.4rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+  }
+  
+  #wordle-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+  }
+  
+  .grid-row {
+    display: flex;
+  }
+  
+  #game {
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .letter.correct {
+    background-color: var(--Correct-letter-color);
+  }
+  
+  .letter.misplaced {
+    background-color: var(--Misplaced-letter-color);
+  }
+  
+  .letter.incorrect {
+    background-color: var(--Wrong-letter-color);
+  }
+
+
