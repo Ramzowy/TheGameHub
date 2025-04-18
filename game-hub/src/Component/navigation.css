@@ -1,0 +1,28 @@
+.navigation-bar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  #root {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  .link{
+    background: none;
+    border: none;
+    padding: 10px;
+    color: rgba(24, 137, 207, 0.829);
+  }
+  .link:hover {
+    color: #0056b3;
+  }
+  

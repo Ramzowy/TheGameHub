@@ -1,26 +1,21 @@
-import { useState } from 'react'
+import './styles/App.css';
 import { Routes, Route } from 'react-router-dom';
+import SignInAction from './pages/signin';
 import HomePage from './pages/HomePage';
-import Game from './pages/tic-tac-toe';
-import { createBrowserRouter } from 'react-router-dom';
-import Navigation from './Component/Navigation';
-import RockPaperScissorsGame from './pages/rock-paper-scissors';
-import SlingoGame from './pages/slingo-game';
-import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-       <Routes>
-      <Route index element={<HomePage/>} />
-      <Route path="/rock-paper-scissors" element={<RockPaperScissorsGame/>} />
-      <Route path="/tic-tac-toe" element={<Game/>} />
-      <Route path="/slingo-game" element={<SlingoGame/>} />
+    <Routes>
+      <Route path="/" element={<SignInAction />} />
+      <Route path="/HomePage/*" element={<HomePage/>} />
     </Routes>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;
+    //    /* <Routes>
+    //   <Route index element={<HomePage/>} />
+    //   <Route path="/rock-paper-scissors" element={<RockPaperScissorsGame/>} />
+    //   <Route path="/tic-tac-toe" element={<Game/>} />
+    //   <Route path="/slingo-game" element={<SlingoGame/>} />
+    // </Routes>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import '../slingo-game.css';
+import { useLocation } from 'react-router-dom';
+import '../styles/slingo-game.css';
 import 'animate.css';
 
 function SlingoGame() {
