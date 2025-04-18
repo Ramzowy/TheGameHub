@@ -19,6 +19,9 @@ function HomePage() {
           <li>
             <Link to="/wordle">Wordle</Link>
           </li>
+          <li>
+            <Link to="/memory-game">Memory Game</Link>
+          </li>
         </ul>
       </nav>
     </div>
