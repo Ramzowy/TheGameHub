@@ -3,6 +3,10 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const RockPaperScissorsGame = () => {
+
+  const location = useLocation();
+  const userName = location.state?.userName;
+
   // Game constants
   const CHOICES = ['rock', 'paper', 'scissors'];
   const OUTCOMES = {
@@ -12,7 +16,6 @@ const RockPaperScissorsGame = () => {
   };
 
   // Game state
-  const [userName, setUserName] = useState('');
   const [gameStarted, setGameStarted] = useState(false);
   const [userScore, setUserScore] = useState(0);
   const [cpuScore, setCpuScore] = useState(0);
@@ -55,32 +58,32 @@ const RockPaperScissorsGame = () => {
   };
 
   // Render welcome screen
-  if (!gameStarted) {
-    return (
-      <div>
-        <h1>Welcome to Rock Paper Scissors!</h1>
-        <div>
-          <label>
-            Enter your name:
-            <input
-              type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              minLength={2}
-              maxLength={15}
-              required
-            />
-          </label>
-        </div>
-        <button 
-          onClick={handleStartGame}
-          disabled={userName.trim().length < 2}
-        >
-          Start Game
-        </button>
-      </div>
-    );
-  }
+  // if (!gameStarted) {
+  //   return (
+  //     <div>
+  //       <h1>Welcome to Rock Paper Scissors!</h1>
+  //       <div>
+  //         <label>
+  //           Enter your name:
+  //           <input
+  //             type="text"
+  //             value={userName}
+  //             onChange={(e) => setUserName(e.target.value)}
+  //             minLength={2}
+  //             maxLength={15}
+  //             required
+  //           />
+  //         </label>
+  //       </div>
+  //       <button 
+  //         onClick={handleStartGame}
+  //         disabled={userName.trim().length < 2}
+  //       >
+  //         Start Game
+  //       </button>
+  //     </div>
+  //   );
+  // }
 
   // Render game screen
   return (

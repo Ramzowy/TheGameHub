@@ -4,13 +4,17 @@ import '../styles/slingo-game.css';
 import 'animate.css';
 
 function SlingoGame() {
+    const location = useLocation();
+    const userName = location.state?.userName;
+
+
     const boardSize = 5;//def 5
     const randomNumberPool = 12;//def 12
     const freeRollPool = 2;//def 2
     const freeTilePool = 2;//def 2
     const numberOfRolls = 11;//def 11
     const bonusSlots = 1;//def 1
-    
+
 
 
     const generateRandomGrid = () =>
@@ -122,7 +126,7 @@ function SlingoGame() {
                 setBoardCompleted(true);
                 
                 setTimeout(() => {
-                    alert(`Congratulations! You've completed the board with a score of ${newScore}!`)
+                    alert(`Congratulations, ${userName}! You've completed the board with a score of ${newScore}!`)
                 }, 500)
             }
         }
@@ -324,7 +328,7 @@ function SlingoGame() {
                 ))}
             </div>
             <button onClick={regenerateSlots} id="regenerate-slots" disabled={playerScore === 0 && !gameState || !gameState}>
-                Reroll Slots
+                Spin Slots
             </button>
         </div>
     );
