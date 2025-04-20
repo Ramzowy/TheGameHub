@@ -24,16 +24,16 @@ const cardImages = [
 ];
 
 const Card = ({ card, handleChoice, flipped, matched }) => {
-  return (
-    <div 
-      className={`card ${flipped ? 'toggled' : ''} ${matched ? 'matched' : ''}`} 
-      onClick={() => !matched && handleChoice(card)}
-    >
-      <div className="outline-image"></div>
-      <img src={card.image} className="card-image" alt={card.alt} />
-    </div>
-  );
-};
+    return (
+      <div 
+        className={`card ${flipped ? 'toggled' : ''} ${matched ? 'matched' : ''}`} 
+        onClick={() => !matched && handleChoice(card)}
+      >
+        <div className="outline-image"></div>
+        <img src={card.image} className="card-image" alt={card.alt} />
+      </div>
+    );
+  };
 
 const GameHeader = ({ moves }) => {
   return (
@@ -78,28 +78,30 @@ const MemoryGame = () => {
     if (disabled || card.matched || turnedCards.some((c) => c.id === card.id)) {
       return;
     }
-
+  
     const newTurnedCards = [...turnedCards, card];
     setTurnedCards(newTurnedCards);
-
+  
     if (newTurnedCards.length === 2) {
       setMoves((prevMoves) => prevMoves + 1);
       setDisabled(true);
-
-      // Match cards based on pairId instead of image
+  
       const isPair = newTurnedCards[0].pairId === newTurnedCards[1].pairId;
-
+  
       if (isPair) {
-        setCards((prevCards) =>
-          prevCards.map((c) =>
-            c.pairId === newTurnedCards[0].pairId
-              ? { ...c, matched: true }
-              : c
-          )
-        );
-        setMatchedPairs((prev) => prev + 1);
-        setTurnedCards([]);
-        setDisabled(false);
+        // Wait 1 second before marking as matched and clearing turned cards
+        setTimeout(() => {
+          setCards((prevCards) =>
+            prevCards.map((c) =>
+              c.pairId === newTurnedCards[0].pairId
+                ? { ...c, matched: true }
+                : c
+            )
+          );
+          setMatchedPairs((prev) => prev + 1);
+          setTurnedCards([]);
+          setDisabled(false);
+        }, 1000);
       } else {
         setTimeout(() => {
           setTurnedCards([]);
