@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import Game from './pages/tic-tac-toe';
 import { createBrowserRouter } from 'react-router-dom';
 import Navigation from './Component/Navigation';
+import MemoryGame from './pages/MemoryGame';
 import RockPaperScissorsGame from './pages/rock-paper-scissors';
 import WordleGame from './pages/Wordle';
 import './App.css'
@@ -18,6 +19,7 @@ function App() {
       <Route path="/rock-paper-scissors" element={<RockPaperScissorsGame/>} />
       <Route path="/tic-tac-toe" element={<Game/>} />
       <Route path="/wordle" element={<WordleGame/>} />
+      <Route path="/memory-game" element={<MemoryGame/>} />
     </Routes>
     </>
   )
