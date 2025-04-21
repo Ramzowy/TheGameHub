@@ -112,6 +112,7 @@ function SlingoGame() {
         setPlayerScore(newScore);
 
         const pointAddElement = document.getElementById(`points-display`);
+
         
         if(pointAddElement) {
             pointAddElement.textContent = `+${displayedPointAddition}`;
@@ -126,7 +127,13 @@ function SlingoGame() {
                 setBoardCompleted(true);
                 
                 setTimeout(() => {
-                    alert(`Congratulations, ${userName}! You've completed the board with a score of ${newScore}!`)
+
+                    const finalScore = playerScore + pointsAdded + bonusPoints;
+                if (finalScore > highScore) {
+                    setHighScore(finalScore);
+                    localStorage.setItem('highScore', finalScore);
+                }
+                    alert(`Congratulations, ${userName}! You've completed the board with a score of ${finalScore}!`)
                 }, 500)
             }
         }
@@ -223,13 +230,15 @@ function SlingoGame() {
         return grid.every(row => row.every(cell => cell.clicked));
     }
 
+
+
     function offerExtraRoll(){
             const outOfRollsPrompt = window.confirm("You have no rolls left, would you like to spend 20% of your score for an extra roll?");
             
             if(outOfRollsPrompt) {
                 if(playerScore <= 10) {
                     alert("Not enough score to buy a roll.");
-                    return setGameState(false);
+                    endGameWithHighScore()
                 }
                 else {
                     const pointDeduction = Math.trunc(playerScore * 0.2);
@@ -240,14 +249,25 @@ function SlingoGame() {
             }
             else {
                 alert("Not enough rolls to continue.");
-                alert(`You failed to complete the board. Your score was ${playerScore}`)
-                return setGameState(false);
+                endGameWithHighScore()
             }
+        }
+
+        function endGameWithHighScore() {
+            setGameState(false);
+
+            if (playerScore > highScore) {
+                setHighScore(playerScore);
+                localStorage.setItem('highScore', playerScore);
+            }
+        
+            alert(`Game over! Your final score was ${playerScore}.`);
         }
 
 
 
-    const regenerateSlots = () => {
+    const regenerateSlots = () => {  
+
         if(remainingRolls > 0) {
         const newslots = generateRandomSlots(slotPool);
         setSlots(newslots);
@@ -264,6 +284,8 @@ function SlingoGame() {
             offerExtraRoll();
             }
     }
+
+
 ////////////
     const [gameState, setGameState] = useState(true);
     const [grid, setGrid] = useState(generateRandomGrid());
@@ -285,6 +307,10 @@ function SlingoGame() {
         setSlots(initialSlots);
     }, []);
 
+    const [highScore, setHighScore] = useState(() => {
+        return parseInt(localStorage.getItem('highScore')) || 0;
+    });
+
     function animateElement(element, animationName) {
         element.classList.remove("animate__animated", `${animationName}`,"animate__fast");
 
@@ -304,6 +330,7 @@ function SlingoGame() {
                 {pointsDisplay && <div id="points-display" className="points-display">{pointsDisplay || ' '}</div>}
                 </div>
                 <div id="remaining-rolls">Remaining Rolls: {remainingRolls}</div>
+                <div id="high-score">High Score: {highScore}</div>
             </div>
             <div id="board">
                 {grid.map((row, rowIndex) =>
