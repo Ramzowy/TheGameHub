@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useLocation } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import RockPaperScissorsGame from './rock-paper-scissors';
@@ -32,8 +33,41 @@ function Hub() {
 
         <Route path="/signin" element={<SignIn />} />
       </Routes>
+=======
+
+import { Link } from 'react-router-dom';
+
+function HomePage() {
+  return (
+    <div>
+      <h1>GameHub</h1>
+      <p>Welcome to GameHub - Your gaming portal!</p>
+      
+      <nav>
+        <h2>Available Games:</h2>
+        <ul>
+          <li>
+            <Link to="/rock-paper-scissors">Rock Paper Scissors</Link>
+          </li>
+          <li>
+            <Link to="/tic-tac-toe">Tic Tac Toe</Link>
+          </li>
+          <li>
+            <Link to="/wordle">Wordle</Link>
+          </li>
+          <li>
+            <Link to="/memory-game">Memory Game</Link>
+          </li>
+        </ul>
+      </nav>
+>>>>>>> origin/main
     </div>
   );
 }
 
+<<<<<<< HEAD
 export default Hub;
+=======
+export default HomePage;
+
+>>>>>>> origin/main
