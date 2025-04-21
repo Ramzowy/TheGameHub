@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import RockPaperScissorsGame from './rock-paper-scissors';
 import TTT from './tic-tac-toe';
 import Slingo from './slingo-game';
+import Wordle from './wordle';
 import SignIn from './signin';
 import Navigation from '../Component/Navigation';
 
@@ -28,6 +29,7 @@ function Hub() {
         />
         <Route path="/rock-paper-scissors" element={<RockPaperScissorsGame />} />
         <Route path="/tic-tac-toe" element={<TTT />} />
+        <Route path="/wordle" element={<Wordle />} />
         <Route path="/slingo-game" element={<Slingo />} />
 
         <Route path="/signin" element={<SignIn />} />
