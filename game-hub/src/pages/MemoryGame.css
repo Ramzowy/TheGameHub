@@ -9,7 +9,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    max-height: 100vh;
     padding: 20px;
     background-color: #f5f5f5;
   }
@@ -52,7 +52,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 1000px;
+    perspective: 300px;
     transition: all 0.3s ease;
   }
   
@@ -63,19 +63,13 @@ body {
     transition: all 0.3s ease;
   }
   
-  .card.matched.hide {
-    visibility: hidden;
-    opacity: 0;
-    transform: scale(0);
-  }
-
   .outline-image {
     position: absolute;
     width: 100%;
     height: 100%;
     background-color: #0E9D57;
     border-radius: 10px;
-    backface-visibility: hidden;
+    backface-visibility: hidden; 
     transition: all 0.3s ease;
   }
   
@@ -98,6 +92,11 @@ body {
   .toggled .outline-image {
     transform: rotateY(90deg);
   }
+
+  /* Show backface ONLY if unflipped AND unmatched */
+.card:not(.toggled):not(.matched) .outline-image {
+  transform: rotateY(0deg);
+}
   
   .progress-container {
     display: flex;
@@ -111,6 +110,8 @@ body {
     border-radius: 20px;
     background-color: white;
     border: 1px solid #ccc;
+    color: #333;
+    font-weight: bold;
   }
   
   .restart-button {

@@ -35,7 +35,7 @@ const Card = ({ card, handleChoice, flipped, matched }) => {
     );
   };
 
-const GameHeader = ({ moves }) => {
+const GameHeader = () => {
   return (
     <div className="heading-container">
       <h1 className="gfg-heading">Earl-Rahim</h1>
@@ -47,7 +47,7 @@ const GameHeader = ({ moves }) => {
 const GameProgress = ({ moves, handleRestart }) => {
   return (
     <div className="progress-container">
-      <div className="move-counter">Moves: {moves}</div>
+      <div className="move-counter"><p>Moves: {moves}</p></div>
       <button className="restart-button" onClick={handleRestart}>
         Restart Game
       </button>
@@ -102,7 +102,8 @@ const MemoryGame = () => {
           setTurnedCards([]);
           setDisabled(false);
         }, 1000);
-      } else {
+      } 
+      else {
         setTimeout(() => {
           setTurnedCards([]);
           setDisabled(false);
@@ -126,7 +127,7 @@ const MemoryGame = () => {
   return (
     <div className="container">
       <div className="game-container">
-        <GameHeader moves={moves} />
+        <GameHeader/>
         <div className="cards-grid">
           {cards.map((card) => (
             <Card
