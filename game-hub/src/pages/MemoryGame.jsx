@@ -38,6 +38,7 @@ const Card = ({ card, handleChoice, flipped, matched }) => {
 const GameHeader = () => {
   return (
     <div className="heading-container">
+
       <h2 className="game-heading">Click any card to flip it!</h2>
     </div>
   );
@@ -124,7 +125,7 @@ const MemoryGame = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="memory-game-container">
       <div className="game-container">
         <GameHeader/>
         <div className="cards-grid">
