@@ -3,14 +3,14 @@
     --animate-duration: 1s;
   }
 
-.square {
+.slingo-square {
     width: 100%;
     aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     color: rgb(48, 46, 46);
-    background-color: rgb(48, 110, 15);
+    background-color: rgb(221, 175, 37);
     border: 1px solid black;
     box-sizing: border-box;
     font-size: 16px;
@@ -20,7 +20,7 @@
     margin: 0;
 }
 
-.square.clicked {
+.slingo-square.clicked {
     background-color: rgb(59, 122, 56);
     color: black;
     cursor: not-allowed;
@@ -32,7 +32,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: lightblue;
+    background-color: rgb(45, 181, 108);
     color: black;
     border: 2px solid black;
     box-sizing: border-box;
@@ -75,12 +75,13 @@
     display: inline-block;
     text-align: center;
 }
-
-/* @keyframes fadeOut {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-} */
+.regenrate-slots-button{
+    background-color: rgb(21, 23, 20);
+    color: rgb(142, 137, 137);
+    border: none;
+    padding: 10px;
+    cursor: pointer;    
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}

@@ -338,7 +338,7 @@ function SlingoGame() {
                         <button
                             id={`cell-${rowIndex}-${colIndex}`}
                             key={`${rowIndex}-${colIndex}`}
-                            className={`square ${cell.clicked ? 'clicked' : ''}`}
+                            className={`slingo-square ${cell.clicked ? 'clicked' : ''}`}
                             onClick={(e) => handleClick(rowIndex, colIndex)}
                             disabled={cell.clicked || slots[colIndex] !== 'Free Tile' && grid[rowIndex][colIndex].value !== slots[colIndex]}
                         >
@@ -354,7 +354,7 @@ function SlingoGame() {
                     </div>
                 ))}
             </div>
-            <button onClick={regenerateSlots} id="regenerate-slots" disabled={playerScore === 0 && !gameState || !gameState}>
+            <button className="regenrate-slots-button" onClick={regenerateSlots} id="regenerate-slots" disabled={playerScore === 0 && !gameState || !gameState}>
                 Spin Slots
             </button>
         </div>

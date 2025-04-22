@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 function Square({ value, onSquareClick }) {
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button className="TTT-square" onClick={onSquareClick}>
       {value || '\u00A0'}
     </button>
   );
@@ -83,7 +83,7 @@ export default function Game() {
     }
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{description}</button>
+        <button className="jump-button" onClick={() => jumpTo(move)}>{description}</button>
       </li>
     );
   });

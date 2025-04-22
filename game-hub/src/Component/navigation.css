@@ -16,9 +16,17 @@
     padding: 2rem;
     text-align: center;
   }
-  .link{
+  .link-button{
     background: none;
     border: none;
     padding: 10px;
     color: rgba(186, 186, 186, 0.829);
+  }
+  .link-button:hover{
+    background: none;
+    color: rgba(186, 186, 186, 0.829);
+    box-shadow: none;
+    outline: none;
+    text-decoration: none;
+    cursor: default;
   }
