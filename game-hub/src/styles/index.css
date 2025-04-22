@@ -49,6 +49,11 @@ button {
 input.signin-input {
   text-transform: none !important;
 }
+
+.signin-button{
+  background-color: rgb(59, 65, 55);
+        color: rgb(142, 137, 137);
+}
 /* button:hover {
   border-color: #646cff;
 } */

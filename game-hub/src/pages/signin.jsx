@@ -27,7 +27,7 @@ function SignInAction() {
         value={name}
         onChange={inputChange}
       />
-      <button onClick={nameInputGuard}>Sign In</button>
+      <button className="signin-button"onClick={nameInputGuard}>Sign In</button>
     </div>
   );
 }
