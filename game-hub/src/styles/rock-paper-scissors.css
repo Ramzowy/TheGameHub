@@ -1,0 +1,88 @@
+.container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    margin-bottom: 1rem;
+  }
+  
+  h3 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .room-code {
+    font-weight: bold;
+  }
+  
+  label {
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+  
+  input[type="text"] {
+    margin-left: 8px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    font-size: 1rem;
+  }
+  
+  button {
+    margin-left: 12px;
+    padding: 6px 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+  button:disabled {
+    cursor: not-allowed;
+    background-color: #999;
+  }
+  
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0;
+  }
+  
+  ul li {
+    margin-bottom: 0.3rem;
+  }
+  
+  .choice-select {
+    margin-right: 12px;
+    padding: 4px 8px;
+    font-size: 1rem;
+  }
+  
+  .opponent-choice {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+  
+  .round-result {
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+  
+  .round-result.tie {
+    color: orange;
+  }
+  
+  .round-result.win {
+    color: green;
+  }
+  
+  .round-result.lose {
+    color: red;
+  }
