@@ -13,9 +13,3 @@ function App() {
 }
 
 export default App;
-    //    /* <Routes>
-    //   <Route index element={<HomePage/>} />
-    //   <Route path="/rock-paper-scissors" element={<RockPaperScissorsGame/>} />
-    //   <Route path="/tic-tac-toe" element={<Game/>} />
-    //   <Route path="/slingo-game" element={<SlingoGame/>} />
-    // </Routes>

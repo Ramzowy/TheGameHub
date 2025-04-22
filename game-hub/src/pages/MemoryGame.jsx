@@ -38,7 +38,6 @@ const Card = ({ card, handleChoice, flipped, matched }) => {
 const GameHeader = () => {
   return (
     <div className="heading-container">
-      <h1 className="gfg-heading">Earl-Rahim</h1>
       <h2 className="game-heading">Click any card to flip it!</h2>
     </div>
   );
