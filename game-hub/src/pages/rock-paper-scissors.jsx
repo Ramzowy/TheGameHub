@@ -56,36 +56,6 @@ const RockPaperScissorsGame = () => {
   const handlePlay = () => {
     playRound(selectedChoice);
   };
-
-  // Render welcome screen
-  // if (!gameStarted) {
-  //   return (
-  //     <div>
-  //       <h1>Welcome to Rock Paper Scissors!</h1>
-  //       <div>
-  //         <label>
-  //           Enter your name:
-  //           <input
-  //             type="text"
-  //             value={userName}
-  //             onChange={(e) => setUserName(e.target.value)}
-  //             minLength={2}
-  //             maxLength={15}
-  //             required
-  //           />
-  //         </label>
-  //       </div>
-  //       <button 
-  //         onClick={handleStartGame}
-  //         disabled={userName.trim().length < 2}
-  //       >
-  //         Start Game
-  //       </button>
-  //     </div>
-  //   );
-  // }
-
-  // Render game screen
   return (
     <div>
       <h1>Rock Paper Scissors</h1>
