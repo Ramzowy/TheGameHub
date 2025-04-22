@@ -222,7 +222,7 @@ const RockPaperScissorsGame = () => {
               onChange={e => setInputRoomId(e.target.value.toUpperCase())}
             />
           </label>
-          <button onClick={joinRoom}>Play</button>
+          <button className="RPS-button"onClick={joinRoom}>Play</button>
           <p style={{ marginTop: 12 }}>
             Share your room code with a friend. When both join the same room and click Play, the game starts.
           </p>
@@ -281,7 +281,7 @@ const RockPaperScissorsGame = () => {
               ? '🎉 You won the game! 🎉'
               : `Winner: ${winner}`}
           </h2>
-          <button
+          <button className="RPS-button"
             onClick={async () => {
               if (!inputRoomId) return;
               try {
@@ -346,7 +346,7 @@ const RockPaperScissorsGame = () => {
                 </option>
               ))}
             </select>
-            <button
+            <button className="RPS-button"
               onClick={() => submitChoice(selectedChoice)}
               disabled={!!gameState?.players?.[userName]?.choice}
             >
