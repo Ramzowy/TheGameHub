@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './Wordle.css';
 
 // 1. Smallest, most basic components first
