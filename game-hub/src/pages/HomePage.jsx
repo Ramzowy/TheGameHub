@@ -3,8 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import RockPaperScissorsGame from './rock-paper-scissors';
 import TTT from './tic-tac-toe';
 import Slingo from './slingo-game';
-import Wordle from './wordle';
-import MemoryGame from './memorygame';
+import Wordle from './Wordle';
+import MemoryGame from './MemoryGame';
 import SignIn from './signin';
 import Navigation from '../Component/Navigation';
 
